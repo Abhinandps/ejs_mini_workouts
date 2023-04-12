@@ -52,6 +52,76 @@ const products = [
       product_image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSnblm5FEzsRMzDTLEyYDCub5FN6IJLHYsVrK240-Yet8zq6U2T6wiLlYUQVg9TAj1IPWvtiVZaYWNcEqSyg6sn-O5ZI9oZ1Ohm1ToF_f8&usqp=CAE",
     }
   ]
+
+const medicines = [
+    {
+      name: "Aspirin",
+      brand: "Bayer",
+      dosageForm: "Tablet",
+      strength: "325 mg",
+      price: 5.99
+    },
+    {
+      name: "Acetaminophen",
+      brand: "Tylenol",
+      dosageForm: "Capsule",
+      strength: "500 mg",
+      price: 6.99
+    },
+    {
+      name: "Loratadine",
+      brand: "Claritin",
+      dosageForm: "Tablet",
+      strength: "10 mg",
+      price: 9.99
+    },
+    {
+      name: "Omeprazole",
+      brand: "Prilosec",
+      dosageForm: "Capsule",
+      strength: "20 mg",
+      price: 12.99
+    }
+  ]
+  
+
+const items = [
+    {
+      id: 1,
+      name: "Item 1",
+      price: 9.99,
+      category: "Electronics",
+      color: "Black"
+    },
+    {
+      id: 2,
+      name: "Item 2",
+      price: 19.99,
+      category: "Clothing",
+      color: "Blue"
+    },
+    {
+      id: 3,
+      name: "Item 3",
+      price: 4.99,
+      category: "Home",
+      color: "Red"
+    },
+    {
+      id: 4,
+      name: "Item 4",
+      price: 14.99,
+      category: "Electronics",
+      color: "Silver"
+    },
+    {
+      id: 5,
+      name: "Item 5",
+      price: 29.99,
+      category: "Clothing",
+      color: "Green"
+    }
+  ]
   
 
   exports.module = products
@@ -59,6 +129,18 @@ const products = [
 app.get('/',(req,res)=>{
     res.render('index',{ products})
 })
+
+app.get('/product',(req,res)=>{
+    res.render('product',{ medicines})
+})
+
+
+app.get('/list',(req,res)=>{
+    res.render('list',{ items})
+})
+
+
+
 
 
 app.listen(port,()=>{
