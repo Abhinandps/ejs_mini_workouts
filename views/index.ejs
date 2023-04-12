@@ -1,0 +1,16 @@
+<div class="container d-flex">
+    <% products.forEach((item)=> { %>
+ 
+        <div class="card m-5 bg-secondary" style="width: 18rem;">
+            <img class="card-img-top" src="<%= item.product_image %>" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title text-white"><%=item.product_name%> </h5>
+              <p class="card-text text-white"><%=item.product_description%> </p>
+              <a href="#" class="btn btn-primary"><%=item.price%></a>
+              <a href="#" class="btn btn-primary"><%=item.discount%></a>
+              <a href="#" class="btn btn-primary"><%=item.size%></a>
+            </div>
+          </div>
+    
+          <%}) %>
+</div>
