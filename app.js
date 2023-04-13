@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const app = express()
 
 const expressLayouts = require('express-ejs-layouts')
@@ -13,8 +14,20 @@ const port = process.env.PORT || 3000
 app.set('view engine','ejs')
 app.set('layout','./layouts/layout')
 
-
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 app.use(expressLayouts)
+
+app.use(addCacheControlHeader)
+
+app.use(session({
+  secret:"#secret_key",
+  resave:false,
+  saveUninitialized:false,
+  cookie:{
+    maxAge:20 * 1000
+  }
+}))
 
 
 const products = [
@@ -124,10 +137,13 @@ const items = [
   ]
   
 
-  exports.module = products
-
 app.get('/',(req,res)=>{
-    res.render('index',{ products})
+    if(req.session.user){
+      res.render('index',{ products})
+    }
+    else{
+      res.render('login',{title:"Login"})
+    }
 })
 
 app.get('/product',(req,res)=>{
@@ -137,6 +153,48 @@ app.get('/product',(req,res)=>{
 
 app.get('/list',(req,res)=>{
     res.render('list',{ items})
+})
+
+// app.get('/login',(req,res)=>{
+//     res.render('login',{title:"Login"})
+// })
+
+
+const credentials={
+  username:"Abhi",
+  password:"123"
+}
+
+function addCacheControlHeader(req, res, next) {
+  if (!req.user) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  }
+  next();
+}
+
+app.post('/login',(req,res)=>{
+    let username = req.body.username
+    let password = req.body.password
+    console.log(req.body);
+    if(username === credentials.username && password === credentials.password){
+      req.session.user = username
+      res.redirect("/")
+    }
+    else{
+      res.render("login",{err:"Invalid username or password",title:"Login"})
+    }
+})
+
+
+app.get('/logout',(req,res)=>{
+  req.session.destroy(function (err){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.redirect('/')
+    }
+  })
 })
 
 
